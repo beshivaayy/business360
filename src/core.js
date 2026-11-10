@@ -8,7 +8,7 @@ const list = (value) => Array.isArray(value) ? value.map(v => clean(v)).filter(B
 
 function requireText(value, field) {
   const result = clean(value);
-  if (!result) throw new Error(\`Missing required field: \${field}\`);
+  if (!result) throw new Error(`Missing required field: ${field}`);
   return result;
 }
 
@@ -22,7 +22,7 @@ function parseDuration(value) {
 }
 
 function dayWindow(start, end) {
-  return start === end ? \`Day \${start}\` : \`Days \${start}–\${end}\`;
+  return start === end ? `Day ${start}` : `Days ${start}–${end}`;
 }
 
 function makePhases(duration, templates) {
@@ -34,7 +34,7 @@ function makePhases(duration, templates) {
       : Math.max(start, Math.round(duration * template.end));
     previousEnd = end;
     return {
-      phase: \`\${index + 1}. \${template.name}\`,
+      phase: `${index + 1}. ${template.name}`,
       weeks: dayWindow(start, end),
       window: dayWindow(start, end),
       objective: template.objective,
