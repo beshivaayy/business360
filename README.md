@@ -88,6 +88,32 @@ business360/
 └── PORTFOLIO_CHARTER.md
 ```
 
+## Use Business360 as a reusable toolkit
+
+Business360 is also being developed as a **model-independent workflow engine**. Its business logic is separate from AI providers, so the same capabilities can be called from MCP-compatible clients, native function-calling adapters, scripts, or directly by people using the templates.
+
+### Working developer preview
+
+The repository now includes a provider-neutral Node.js core and a local MCP stdio server with five tools:
+
+- `create_project_plan`
+- `build_business_strategy`
+- `create_sop`
+- `build_kpi_tracker`
+- `assess_ai_use_case`
+
+Start with the [Quickstart](docs/QUICKSTART.md), review the [tool contracts](docs/TOOL_CONTRACTS.md), and see the [cross-model architecture](docs/CROSS_MODEL_ARCHITECTURE.md) and [host compatibility matrix](docs/COMPATIBILITY.md).
+
+Run locally with Node.js 20 or newer:
+
+```bash
+npm install
+npm test
+npm start
+```
+
+**Current scope:** the local MCP server and provider-neutral core are implemented. A publicly hosted remote MCP service, authentication, persistent user workspaces, and host-by-host end-to-end verification are not yet complete. Do not treat planned integrations as already available.
+
 ## Contact and professional profile
 
 **Ratnesh Patidar**  
