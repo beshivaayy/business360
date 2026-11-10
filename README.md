@@ -88,6 +88,17 @@ business360/
 └── PORTFOLIO_CHARTER.md
 ```
 
+
+## Try the browser app
+
+Business360 includes a no-code browser workspace for five practical workflows: project planning, business strategy, SOP drafting, KPI design, and AI use-case assessment.
+
+- App source: [docs/app](docs/app/)
+- Build locally: `npm run build` (Node.js 20+)
+- The app runs the shared provider-neutral workflow engine in the browser. Form entries stay in the browser; no Business360 backend or account is required.
+- The GitHub Pages deployment workflow is included. The repository owner must enable GitHub Pages with **GitHub Actions** as the source once before the first deployment can publish a public URL.
+- Browser app output is a structured draft. Validate assumptions, figures, and decisions before using them.
+
 ## Use Business360 as a reusable toolkit
 
 Business360 is also being developed as a **model-independent workflow engine**. Its business logic is separate from AI providers, so the same capabilities can be called from MCP-compatible clients, native function-calling adapters, scripts, or directly by people using the templates.

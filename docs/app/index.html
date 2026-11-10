@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Business360 — practical business workflows for everyone.">
+  <meta name="theme-color" content="#111827">
+  <title>Business360 — Business Toolkit</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1220;--panel:#111c2e;--panel2:#17243a;--line:#2b3b54;--text:#edf2f8;--muted:#aab7c8;--gold:#d8b56d;--green:#82c7a5;--red:#f2a4a4}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .wrap{max-width:1120px;margin:auto;padding:28px 20px 64px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding-bottom:20px}
+    .brand{font-weight:800;letter-spacing:.08em;font-size:14px;color:var(--gold)}.top a{color:var(--muted);text-decoration:none;font-size:13px}
+    h1{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-.04em;margin:36px 0 12px}.lead{max-width:680px;color:var(--muted);font-size:17px;margin:0 0 28px}
+    .layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+    .tools{display:grid;gap:8px}.tool{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:var(--text);padding:12px;border-radius:10px;cursor:pointer;font:inherit}
+    .tool:hover{background:var(--panel2)}.tool[aria-pressed=true]{background:var(--panel2);border-color:var(--gold)}.tool strong{display:block;font-size:14px}.tool small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+    .section-title{font-size:19px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}.field{margin:15px 0}.field label{display:block;font-weight:650;font-size:13px;margin-bottom:6px}
+    input,textarea{width:100%;background:#0b1423;border:1px solid var(--line);border-radius:9px;color:var(--text);padding:11px 12px;font:inherit;outline:none}input:focus,textarea:focus{border-color:var(--gold)}textarea{min-height:86px;resize:vertical}
+    .hint{font-size:11px;color:var(--muted);margin-top:5px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 15px;font:inherit;font-weight:700;cursor:pointer}.btn.primary{background:var(--gold);color:#1b1b1b;border-color:var(--gold)}.btn:disabled{opacity:.5;cursor:not-allowed}
+    .output{margin-top:20px}.output pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:650px;overflow:auto;background:#08101d;border:1px solid var(--line);border-radius:10px;padding:16px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:#d8e2ef}
+    .empty{border:1px dashed var(--line);border-radius:10px;padding:22px;color:var(--muted);text-align:center}.status{min-height:22px;font-size:13px;color:var(--green);margin-top:10px}.foot{border-top:1px solid var(--line);margin-top:30px;padding-top:18px;color:var(--muted);font-size:12px}
+    @media(max-width:760px){.layout{grid-template-columns:1fr}.tools{grid-template-columns:1fr 1fr}.wrap{padding:20px 14px 48px}.panel{padding:16px}}@media(max-width:420px){.tools{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top"><div class="brand">BUSINESS360</div><a href="https://github.com/beshivaayy/business360" target="_blank" rel="noreferrer">Open-source project ↗</a></header>
+    <h1>Make better business decisions.</h1>
+    <p class="lead">Practical business tools for planning, strategy, operations and responsible AI adoption. Choose a workflow, enter what you know, and generate a structured starting point — no coding or AI subscription required.</p>
+    <div class="layout">
+      <aside class="panel"><h2 class="section-title">Choose a tool</h2><p class="sub">Five workflows. One simple workspace.</p><nav class="tools" id="tool-list" aria-label="Business tools"></nav></aside>
+      <section class="panel">
+        <h2 class="section-title" id="form-title">Project plan</h2><p class="sub" id="form-description"></p>
+        <form id="workflow-form"><div id="fields"></div><div class="actions"><button class="btn primary" type="submit">Generate result</button><button class="btn" type="reset">Clear form</button></div></form>
+        <div class="output" aria-live="polite"><div id="empty" class="empty">Your generated result will appear here. Start by filling in the required fields.</div><div id="result-wrap" hidden><div class="actions" style="margin:0 0 10px"><button class="btn" id="copy" type="button">Copy result</button><button class="btn" id="download" type="button">Download JSON</button></div><pre id="result"></pre></div><div class="status" id="status" role="status"></div></div>
+      </section>
+    </div>
+    <footer class="foot">Business360 is an open-source decision-support toolkit. Outputs are drafts, not professional, legal, financial or compliance advice. Validate assumptions and figures before acting. Your entries are processed in this browser and are not sent to a Business360 server.</footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
