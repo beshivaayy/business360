@@ -74,6 +74,8 @@ Scale, revise, or stop based on pre-agreed criteria and a documented risk review
 
 ## 6. Measurement framework
 
+Use the blank [AI use-case scorecard](../templates/ai-use-case-scorecard.csv) to document the business problem, baseline, readiness, risk, oversight, evaluation metric, and stop condition.
+
 | Dimension | Metric | Interpretation |
 |---|---|---|
 | Detection quality | Precision = true positive flags ÷ all positive flags | How many flags are correct? |
