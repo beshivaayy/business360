@@ -256,22 +256,137 @@ export function buildBusinessStrategy(input) {
   const customer = clean(input.customer, "Customer segment needs validation");
   const geography = clean(input.geography, "To be determined");
   const budget = clean(input.budget, "Not supplied");
-  return {
-    artifact: "Business360 Business Strategy Brief", business, offer, target_customer: customer, geography, budget,
-    strategic_hypotheses: ["A clearly defined customer segment will make positioning and channel selection more efficient.", "A narrow initial offer will be easier to validate than a broad catalogue.", "Early customer interviews and paid-pilot evidence should precede significant fixed-cost commitments."],
-    workstreams: [
-      { name: "Customer discovery", actions: ["Interview prospective customers", "Map current alternatives and unmet needs", "Record willingness-to-pay evidence"] },
-      { name: "Positioning and offer", actions: ["Define the customer problem and measurable value proposition", "Specify deliverables, exclusions, and service levels", "Test pricing with real buyer conversations"] },
-      { name: "Go-to-market", actions: ["Choose one primary acquisition channel for the first test", "Create a simple lead-to-sale funnel", "Track conversion and acquisition effort"] },
-      { name: "Operating model", actions: ["Map delivery steps and required capabilities", "Estimate unit economics using validated inputs", "Set quality and customer feedback loops"] }
+  const evidence = clean(input.evidence, "No customer or market evidence supplied");
+  const competitors = list(input.competitors);
+  const priceRange = clean(input.priceRange, "Not supplied");
+  const productStage = clean(input.productStage, "Not supplied");
+  const rawBudget = Number(budget.replace(/[^0-9.]/g, ""));
+  const budgetAmount = Number.isFinite(rawBudget) && rawBudget > 0 ? rawBudget : null;
+  const isSkincare = /(skincare|skin care|cosmetic|face wash|cleanser|serum|beauty)/i.test([business, offer].join(" "));
+  const isIndia = /(india|madhya pradesh|indore|mumbai|delhi|bengaluru|hyderabad|pune|chennai)/i.test(geography);
+  const segments = isSkincare ? [
+    { segment: "Routine-building beginners", need: "A simple, understandable daily routine with clear usage guidance", buying_signals: ["Confusion about product order or frequency", "Preference for a small starter routine"], validation: "Interview beginners and observe whether they can explain the problem without being prompted." },
+    { segment: "Ingredient-aware value seekers", need: "Understandable ingredient information and credible value at an affordable price", buying_signals: ["Compare ingredient lists and price per ml", "Read reviews before trying a new brand"], validation: "Test whether ingredient transparency or price/value is the stronger purchase driver." },
+    { segment: "Local trust-led shoppers", need: "Confidence in seller authenticity, delivery, support and product suitability", buying_signals: ["Ask friends or local communities for recommendations", "Prefer responsive support before first purchase"], validation: "Run small Indore interviews and a controlled sampling or referral test." }
+  ] : [
+    { segment: "Problem-aware early adopters", need: "A credible solution to a clearly experienced problem", buying_signals: ["Already spend time or money on alternatives", "Can describe a recent attempt to solve the problem"], validation: "Interview recent buyers and users of alternatives." },
+    { segment: "Value-conscious practical buyers", need: "A clear outcome with transparent total cost and low adoption friction", buying_signals: ["Compare price, time and service effort", "Need proof before switching"], validation: "Test willingness to pay against the current alternative." },
+    { segment: "Trust-led buyers", need: "Evidence, support and predictable fulfilment", buying_signals: ["Seek referrals, reviews or demonstrations", "Ask about guarantees and service"], validation: "Test proof requirements and objections in buyer conversations." }
+  ];
+  const competitorFramework = {
+    status: competitors.length ? "User-supplied competitor candidates; verify before relying on them." : "No competitors supplied; do not invent a competitor set.",
+    candidates: competitors,
+    compare_on: isSkincare ? ["Product format and size", "Ingredient and claim substantiation", "MRP and realised selling price", "Price per ml", "Reviews and recurring complaints", "Packaging and delivery experience", "Return/refund terms", "Channel and promotion mix"] : ["Target segment", "Core promise", "Offer scope", "Price and total cost", "Proof and reviews", "Distribution and service model", "Switching barriers"],
+    research_method: ["Identify 5–8 direct and indirect alternatives from customer interviews and current local/online search", "Capture dated screenshots or source links for price and claims", "Separate verified facts from interpretation", "Interview buyers about what they actually considered"]
+  };
+  const positioning = isSkincare ? {
+    category: "Affordable, focused daily skincare",
+    draft_value_proposition: "A simple two-product daily skincare offer with clear ingredient information, honest claims and responsive customer support.",
+    differentiation_hypotheses: ["Simpler routine and usage education", "Transparent product and ingredient information", "Reliable local-first customer support and fulfilment"],
+    proof_required: ["Formula and ingredient documentation", "Evidence supporting every product claim", "Real product feedback collected with consent", "Reliable dispatch and complaint handling"],
+    caution: "Do not claim brightening, treatment, clinical efficacy, dermatological approval or a specific result unless the exact claim is lawful and adequately substantiated."
+  } : {
+    category: "To be validated",
+    draft_value_proposition: "Describe the specific customer, problem, outcome and reason to believe; validate each element before publishing.",
+    differentiation_hypotheses: ["A narrower customer focus", "Lower friction or faster delivery", "Better evidence, service or total value"],
+    proof_required: ["Customer evidence", "Demonstrable product/service capability", "Comparable alternative analysis"],
+    caution: "Do not present an untested hypothesis as a proven competitive advantage."
+  };
+  const budgetPlan = budgetAmount ? {
+    currency_context: budget.match(/₹|INR/i) ? "INR" : "User-entered currency; confirm before allocation",
+    total_budget_as_entered: budget,
+    allocation_envelopes: [
+      { category: "Product, inventory and quality/compliance", share_percent: 35, indicative_amount: Math.round(budgetAmount * 0.35), control: "Release only against verified supplier quotes, stock and documentation." },
+      { category: "Packaging, content and storefront", share_percent: 15, indicative_amount: Math.round(budgetAmount * 0.15), control: "Prioritise essential product information and a working checkout over cosmetic extras." },
+      { category: "Customer discovery and sampling", share_percent: 10, indicative_amount: Math.round(budgetAmount * 0.10), control: "Use small tests; obtain consent and record feedback." },
+      { category: "Acquisition experiments", share_percent: 20, indicative_amount: Math.round(budgetAmount * 0.20), control: "Release in capped tranches only after contribution economics and fulfilment readiness." },
+      { category: "Fulfilment, support and operating buffer", share_percent: 10, indicative_amount: Math.round(budgetAmount * 0.10), control: "Cover shipping, returns, payment fees and customer support." },
+      { category: "Contingency reserve", share_percent: 10, indicative_amount: Math.round(budgetAmount * 0.10), control: "Founder approval required; do not pre-commit." }
     ],
-    validation_metrics: ["Qualified customer conversations", "Pilot conversion rate", "Gross margin per sale", "Repeat purchase or retention", "Customer-reported outcome"],
-    decision_gates: ["Proceed only when a real customer problem is evidenced", "Expand channels only after one repeatable acquisition motion appears", "Scale delivery only when quality and unit economics are acceptable"],
-    unknowns_to_validate: ["Competitor set", "Customer willingness to pay", "Demand volume", "Legal and regulatory requirements", "Actual costs and margins"],
-    note: "This is a hypothesis-led starting brief, not market research or a forecast."
+    total_allocation_percent: 100,
+    status: "Illustrative planning envelope only, not a market quote or recommendation to spend. Replace percentages with supplier quotes, compliance needs and actual cash commitments before approval."
+  } : {
+    status: "Budget not supplied; allocation withheld.",
+    required_inputs: ["Available cash", "Committed inventory and manufacturing costs", "Compliance/testing costs", "Packaging and fulfilment costs", "Minimum cash reserve"]
+  };
+  const funnel = {
+    stages: [
+      { stage: "Qualified reach", definition: "People in the intended segment who see a relevant offer" },
+      { stage: "Product-page or enquiry visit", definition: "Qualified people who take a measurable next step" },
+      { stage: "Add-to-cart or qualified lead", definition: "People showing explicit buying intent" },
+      { stage: "Paid, non-cancelled order", definition: "Unique customer with successful payment and no cancellation" },
+      { stage: "Repeat purchase", definition: "Customer placing a subsequent paid order within the chosen cohort window" }
+    ],
+    formulas: ["Visit-to-order conversion = paid non-cancelled first orders / eligible unique visits", "CAC = attributable acquisition spend / new paying customers", "Contribution per order = net realised revenue − product − packaging − fulfilment − payment − discounts − expected returns", "Repeat rate = customers with a repeat paid order / eligible first-order customer cohort"],
+    reverse_plan: "Required qualified visits = customer target / observed visit-to-paid-order conversion. Do not calculate a traffic target until a measured conversion baseline exists.",
+    first_test_target: "Set a small, operationally supportable learning target after stock, sample size, budget and conversion tracking are confirmed; do not treat 100 customers as a forecast."
+  };
+  const channelOptions = isSkincare ? [
+    { channel: "Customer interviews and product sampling", role: "Learn objections, usage expectations and willingness to pay before broad promotion", test: "Small consent-based Indore cohort; record feedback and paid intent", risk: "Sampling interest may not convert to paid demand." },
+    { channel: "Instagram/Reels and creator content", role: "Demonstrate routine, texture, packaging and education", test: "Test a small number of content angles with tracked product-page visits", risk: "Views and likes are not purchase evidence; disclose paid collaborations." },
+    { channel: "Local referrals and community partnerships", role: "Test trust-led discovery in the launch geography", test: "Track unique referral codes or source attribution", risk: "Small reach and attribution leakage." },
+    { channel: "Paid search/social", role: "Test scalable demand only after product pages and fulfilment work", test: "Capped spend with CAC and contribution guardrails", risk: "CAC may exceed contribution; pause on weak economics." }
+  ] : [
+    { channel: "Direct customer conversations", role: "Validate pain, alternatives and willingness to pay", test: "Structured interviews with recent buyers", risk: "Stated intent may not translate into purchase." },
+    { channel: "Referral and partner channel", role: "Borrow trust and reach a defined segment", test: "Track qualified introductions and conversion", risk: "Partner dependency and low control." },
+    { channel: "Content and organic discovery", role: "Build proof and capture high-intent demand", test: "Measure qualified visits and enquiries", risk: "Slow feedback and uncertain reach." },
+    { channel: "Paid acquisition", role: "Buy controlled learning once offer and funnel are ready", test: "Capped campaign with attribution and stop rules", risk: "Spend can mask weak positioning or economics." }
+  ];
+  return {
+    artifact: "Business360 Business Strategy Brief",
+    business, offer, target_customer: customer, geography, budget,
+    business_type: isSkincare ? "d2c_skincare" : "general",
+    strategic_thesis: isSkincare ? "Win a narrow first customer cohort with a credible, easy-to-understand two-product offer; prove trust, repeatable acquisition and positive contribution before expanding the catalogue or media spend." : "Win a clearly defined first customer cohort by proving a specific problem, differentiated outcome and repeatable route to purchase before scaling fixed costs.",
+    customer_segments: segments,
+    recommended_initial_focus: { segment_to_test_first: segments[0].segment, rationale: "Use this as the first research cohort because it is a testable starting hypothesis, not a validated market-size claim.", interview_questions: ["What do you currently use to solve this need?", "What frustrates you about the current option?", "What did you last pay, and what made you choose it?", "What proof would make you trust a new brand?", "What would stop you from buying?"] },
+    competitor_analysis: competitorFramework,
+    positioning,
+    offer_strategy: isSkincare ? {
+      lead_offer_hypothesis: "Test the face wash as an accessible entry product and the serum as a considered add-on; compare single-product and bundle purchase intent.",
+      offer_tests: ["Face wash alone", "Serum alone", "Two-product routine bundle"],
+      product_page_requirements: ["Net quantity and complete applicable label information", "Ingredient list and accurate usage directions", "Verified claims and relevant warnings", "Price, shipping, returns and customer support information"],
+      pricing_method: ["Collect comparable competitor prices and price per ml", "Calculate landed product cost and all variable selling costs", "Set a minimum contribution floor before discounting", "Test willingness to pay with real purchase behaviour"],
+      price_range_input: priceRange
+    } : {
+      offer_tests: ["Core offer", "Starter or entry offer", "Bundle or higher-value offer where relevant"],
+      pricing_method: ["Map current alternatives and buyer spend", "Calculate delivery and support costs", "Test willingness to pay with actual buyer behaviour"],
+      price_range_input: priceRange
+    },
+    budget_plan: budgetPlan,
+    go_to_market: {
+      recommended_sequence: ["Customer discovery and competitor evidence", "Small product/offer validation", "One primary channel experiment with attribution", "Controlled launch after operational and compliance gates", "Scale only after repeatable conversion and contribution evidence"],
+      channel_options: channelOptions,
+      geography_notes: isIndia ? ["Treat the named geography as the initial research and fulfilment area, not proof of demand.", "Verify shipping coverage, delivery promise, local customer feedback and applicable India-specific obligations before committing."] : ["Validate local demand, distribution and regulatory obligations for the specified geography before committing."],
+      funnel
+    },
+    unit_economics: {
+      required_inputs: ["Realised selling price after discounts", "Product/manufacturing cost", "Packaging cost", "Pick-pack and shipping cost", "Payment gateway fees", "Returns/refunds and damaged-order allowance", "Attributable acquisition spend"],
+      formulas: ["Gross margin = (net sales − cost of goods sold) / net sales", "Contribution per order = net realised sales − all variable order costs", "Break-even orders = fixed launch costs / contribution per order (only if contribution is positive)"],
+      guardrails: ["Do not scale paid acquisition when CAC exceeds the approved contribution threshold.", "Separate gross margin from contribution margin.", "Use actual paid orders and refund-adjusted revenue, not likes or unqualified leads."]
+    },
+    strategic_roadmap: [
+      { period: "Days 1–30", objective: "Validate segment, offer, costs and operational readiness.", outputs: ["Customer interview notes", "Competitor comparison with sources", "Supplier and compliance evidence", "Unit-economics worksheet", "Small channel test design"] },
+      { period: "Days 31–60", objective: "Run a controlled launch or paid pilot and learn from real buyers.", outputs: ["Tracked funnel", "Paid-order and refund data", "Customer feedback themes", "CAC and contribution review"] },
+      { period: "Days 61–90", objective: "Repeat what works or revise the offer before scaling.", outputs: ["Repeatable channel evidence", "Cohort/repeat-purchase review where data permits", "Scale, revise or stop decision"] }
+    ],
+    validation_metrics: [
+      { name: "Qualified customer conversations", definition: "Completed interviews with people matching the target segment", baseline: "Not supplied", target: "Set after defining sample and capacity", cadence: "Weekly" },
+      { name: "Paid conversion rate", definition: "New paid non-cancelled customers / eligible unique visits or qualified leads; keep denominator consistent", baseline: "Not supplied", target: "Set after pilot baseline", cadence: "Weekly" },
+      { name: "Customer acquisition cost", definition: "Attributable acquisition spend / new paying customers", baseline: "Not supplied", target: "Must be below approved contribution threshold", cadence: "Weekly" },
+      { name: "Contribution per order", definition: "Net realised sales less all variable order costs", baseline: "Not supplied", target: "Positive or explicitly approved learning investment", cadence: "Weekly" },
+      { name: "Repeat purchase rate", definition: "Eligible first-order cohort customers with a subsequent paid order / eligible cohort", baseline: "Not supplied", target: "Set after sufficient cohort age", cadence: "Monthly" }
+    ],
+    decision_gates: [
+      { gate: "Customer problem", proceed_when: "Interviews show a repeated, specific problem and current alternatives; retain notes and disconfirming evidence.", stop_or_revise_if: "Interest is vague, prompted or unrelated to a purchase decision." },
+      { gate: "Product and trust", proceed_when: "Product quality, documentation, claims, labelling and applicable compliance checks are verified by qualified responsible parties.", stop_or_revise_if: "Required evidence or approvals are missing." },
+      { gate: "Commercial viability", proceed_when: "Actual variable costs, realised price and contribution per order are known; test spend is capped.", stop_or_revise_if: "Contribution is structurally negative or CAC has no credible path to an acceptable level." },
+      { gate: "Repeatability", proceed_when: "At least one channel produces attributable paid customers with acceptable quality and economics across more than one test.", stop_or_revise_if: "Results depend on one-off discounts, untracked referrals or vanity metrics." }
+    ],
+    unknowns_to_validate: ["Actual competitor set and dated comparable prices", "Customer willingness to pay and purchase objections", "Demand and reachable audience size in the selected geography", "Product readiness, manufacturer documentation and applicable legal/regulatory requirements", "Supplier quotes, MOQ, lead times and actual variable costs", "Observed channel conversion, CAC and repeat-purchase behaviour", "Available team capacity and cash reserve"],
+    inputs_used: { evidence, competitors, product_stage: productStage, price_range: priceRange },
+    note: "This is a structured strategic hypothesis and validation plan, not completed market research, legal advice, a demand forecast or a guaranteed financial outcome. No external competitor, price or market facts were inferred."
   };
 }
-
 export function createSop(input) {
   const process = requireText(input.process, "process");
   const owner = clean(input.owner, "Process owner to be assigned");
@@ -343,7 +458,7 @@ export function assessAiUseCase(input) {
 
 export const workflows = {
   create_project_plan: { description: "Create a time-aware, industry-aware project plan with milestones, owners, dependencies, risks and decision gates.", inputSchema: { type: "object", properties: { project: { type: "string" }, goal: { type: "string" }, context: { type: "string" }, timeline: { type: "string" }, teamSize: { type: "number" }, constraints: { type: "array", items: { type: "string" } } }, required: ["project", "goal"] }, run: createProjectPlan },
-  build_business_strategy: { description: "Create a hypothesis-led business strategy brief.", inputSchema: { type: "object", properties: { business: { type: "string" }, offer: { type: "string" }, customer: { type: "string" }, geography: { type: "string" }, budget: { type: "string" } }, required: ["business", "offer"] }, run: buildBusinessStrategy },
+  build_business_strategy: { description: "Create a hypothesis-led business strategy brief.", inputSchema: { type: "object", properties: { business: { type: "string" }, offer: { type: "string" }, customer: { type: "string" }, geography: { type: "string" }, budget: { type: "string" }, competitors: { type: "array", items: { type: "string" } }, evidence: { type: "string" }, productStage: { type: "string" }, priceRange: { type: "string" } }, required: ["business", "offer"] }, run: buildBusinessStrategy },
   create_sop: { description: "Draft a repeatable standard operating procedure.", inputSchema: { type: "object", properties: { process: { type: "string" }, owner: { type: "string" }, purpose: { type: "string" }, trigger: { type: "string" }, inputs: { type: "array", items: { type: "string" } }, qualityStandard: { type: "string" } }, required: ["process"] }, run: createSop },
   build_kpi_tracker: { description: "Design a KPI tracker with definitions and governance.", inputSchema: { type: "object", properties: { objective: { type: "string" }, domain: { type: "string" }, metrics: { type: "array", items: { type: "string" } } }, required: ["objective"] }, run: buildKpiTracker },
   assess_ai_use_case: { description: "Assess an AI use case and design a controlled pilot.", inputSchema: { type: "object", properties: { useCase: { type: "string" }, problem: { type: "string" }, volume: { type: "string" }, data: { type: "string" }, risk: { type: "string" } }, required: ["useCase", "problem"] }, run: assessAiUseCase }

@@ -62,6 +62,39 @@ test("strategy brief flags unknowns rather than inventing research", () => {
   assert.ok(result.unknowns_to_validate.includes("Customer willingness to pay"));
 });
 
+
+test("skincare business strategy creates segment, positioning, budget, funnel and roadmap frameworks without inventing market facts", () => {
+  const result = buildBusinessStrategy({
+    business: "GlowCare India",
+    offer: "Vitamin C face wash and vitamin C face serum",
+    customer: "Men and women aged 20–35 interested in affordable daily skincare",
+    geography: "Indore, Madhya Pradesh, India",
+    budget: "₹2,00,000"
+  });
+  assert.equal(result.business_type, "d2c_skincare");
+  assert.equal(result.customer_segments.length, 3);
+  assert.ok(result.positioning.proof_required.length >= 3);
+  assert.equal(result.budget_plan.total_allocation_percent, 100);
+  assert.equal(result.budget_plan.allocation_envelopes.reduce((sum, item) => sum + item.indicative_amount, 0), 200000);
+  assert.ok(result.go_to_market.channel_options.some(channel => /Indore/i.test(channel.test)));
+  assert.ok(result.unit_economics.formulas.some(formula => /Contribution per order/i.test(formula)));
+  assert.equal(result.competitor_analysis.candidates.length, 0);
+  assert.ok(result.note.includes("not completed market research"));
+});
+
+test("business strategy accepts competitor and evidence inputs and keeps generic businesses supported", () => {
+  const result = buildBusinessStrategy({
+    business: "Local accounting firm",
+    offer: "Monthly bookkeeping",
+    competitors: ["Firm A", "DIY accounting software"],
+    evidence: "Five interviews with small business owners"
+  });
+  assert.equal(result.business_type, "general");
+  assert.deepEqual(result.competitor_analysis.candidates, ["Firm A", "DIY accounting software"]);
+  assert.equal(result.inputs_used.evidence, "Five interviews with small business owners");
+  assert.equal(result.budget_plan.status, "Budget not supplied; allocation withheld.");
+});
+
 test("SOP includes quality review and exception handling", () => {
   const result = createSop({ process: "Order fulfilment" });
   assert.ok(result.steps.some(x => x.action === "Perform quality review"));

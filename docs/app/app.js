@@ -19,7 +19,11 @@ const definitions = {
       ["offer","Product or service offered","textarea",true,"What do you sell or plan to offer?"],
       ["customer","Target customer","textarea",false,"Who has the problem you solve?"],
       ["geography","Target geography","text",false,"e.g. Indore, India"],
-      ["budget","Available budget","text",false,"Optional; write Not supplied if unknown."]
+      ["budget","Available budget","text",false,"e.g. ₹2,00,000 or Not supplied."],
+      ["competitors","Known competitors or alternatives (one per line)","textarea",false,"Optional; leave blank if unknown.","list"],
+      ["productStage","Product / delivery readiness","text",false,"e.g. Finished stock available, prototype, or not started."],
+      ["priceRange","Expected selling price or range","text",false,"Optional; enter a hypothesis, not a confirmed market price."],
+      ["evidence","Customer or market evidence","textarea",false,"Optional; interviews, orders, research links or observed objections."]
     ]
   },
   create_sop: {
