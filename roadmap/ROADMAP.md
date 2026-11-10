@@ -1,35 +1,52 @@
 # Business360 Roadmap
 
-A small number of rigorous, explainable portfolio pieces is more valuable than many shallow documents.
+The foundation and four flagship draft case studies are now in place. The next priority is validation and presentation quality—not adding volume for its own sake.
 
 ## Stage 1 — Foundation
 - [x] Define portfolio purpose and four pillars.
-- [x] Publish portfolio charter.
-- [ ] Publish all pillar guides and reusable templates.
-- [ ] Scope and complete the first case study.
-- [ ] Add an about/profile section based on verified resume details.
+- [x] Publish portfolio charter and data/ethics principles.
+- [x] Create pillar guides and reusable case-study template.
+- [x] Establish case-study catalogue and repository navigation.
+- [x] Create an operations KPI tracker template.
 
-## Stage 2 — Flagship case studies
-| Pillar | Candidate | Core output |
-|---|---|---|
-| Operations | Fictional AI data-annotation workflow improvement | Process map, SOP, RACI, KPI dictionary, improvement plan |
-| Marketing & Growth | Fictional B2B workflow service GTM | ICP, positioning, funnel, channel plan, 90-day experiments |
-| Strategy | B2B services market-entry decision | Market assessment, options matrix, recommendation |
-| AI & Business Strategy | AI-assisted quality review pilot | Use-case scorecard, ROI scenarios, risk controls, pilot plan |
+## Stage 2 — Four flagship case-study drafts
+- [x] OPS-001 — AI Data Annotation Delivery Workflow Improvement.
+- [x] MKT-001 — B2B Workflow Service Go-to-Market Plan.
+- [x] STR-001 — Market-Entry Decision for a B2B Services Company.
+- [x] AI-001 — AI-Assisted Quality Review Pilot Assessment.
 
-## Stage 3 — Presentation
-- Executive summaries for each case study.
-- Supporting spreadsheet models or dashboard specifications where useful.
-- Source registers, assumptions and limitations.
-- Quality review and interview discussion notes.
+All four are synthetic drafts. Creation is not the same as validation or publication-ready evidence.
 
-## Weekly delivery loop
-1. Select one bounded deliverable.
-2. Define the reader and decision.
-3. Gather relevant evidence.
-4. Draft analysis and recommendation.
-5. Review calculations, assumptions and risks.
-6. Publish and record remaining unknowns.
+## Stage 3 — Quality and credibility
+- [ ] Review every claim, calculation, formula, and cross-document link.
+- [ ] Add source registers where public market or regulatory claims are introduced.
+- [ ] Convert relevant frameworks into clean, reusable worksheets.
+- [ ] Validate professional experience descriptions against the user's actual resume and disclosure permissions.
+- [ ] Add quantified achievements only where evidence exists.
+- [ ] Conduct a final editorial and hiring-manager review.
 
-## Publication gate
-A file is not complete merely because it exists. It must be accurate, readable, sourced or transparently assumed, useful to a business decision and explainable by the author.
+## Stage 4 — Presentation
+- [ ] Add a concise professional profile and verified career timeline.
+- [ ] Add a portfolio landing page suitable for GitHub Pages.
+- [ ] Create one-page executive summaries for the four case studies.
+- [ ] Add interview discussion notes: decision, trade-off, risk, result/expected validation.
+- [ ] Review mobile readability, navigation, and accessibility.
+
+## Operating principles
+1. Prefer one rigorous, explainable deliverable over many shallow files.
+2. Label facts, calculations, assumptions, hypotheses, and recommendations.
+3. Never disclose confidential employer/client information or personal data.
+4. Never present synthetic scenarios, targets, or simulated outcomes as actual achievements.
+5. Pair speed/productivity measures with quality and customer outcomes.
+6. Do not claim AI value without a measured baseline, evaluation, and total-cost view.
+
+## Definition of done
+
+A case study is ready for external presentation only when:
+- The business question and intended reader are clear.
+- Every factual claim is sourced or verified.
+- Assumptions and illustrative figures are labelled.
+- Calculations can be reproduced.
+- Recommendations have owners, sequence, and decision gates.
+- Risks, limitations, and alternatives are acknowledged.
+- The author can explain and defend the work in an interview.
