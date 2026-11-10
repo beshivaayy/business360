@@ -119,6 +119,8 @@ Track stage conversion by cohort and source. Do not treat raw lead volume as com
 
 ## 10. KPI framework
 
+Use the blank [GTM funnel tracker](../templates/gtm-funnel-tracker.csv) to capture period- and segment-level funnel data. It contains no sample performance claims.
+
 | KPI | Definition | Why it matters |
 |---|---|---|
 | ICP account coverage | Target accounts with verified contact and fit ÷ target accounts | Measures market access |
