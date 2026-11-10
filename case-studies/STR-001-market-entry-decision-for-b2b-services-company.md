@@ -51,6 +51,8 @@ Weighted score = sum of (criterion score × weight). Weights are initial managem
 
 ## 5. Research plan
 
+Use the blank [strategy options matrix](../templates/strategy-options-matrix.csv) to record alternatives, criteria, evidence references, assumptions, owners, and review dates. Scores are structured judgement and should be sensitivity-tested.
+
 ### Secondary research
 - Define the category and adjacent substitutes.
 - Identify potential customer types and buying triggers.
