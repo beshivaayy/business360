@@ -28,7 +28,7 @@ These are structured portfolio exercises. They are not validated client engageme
 - [x] Add a reusable interview guide that distinguishes synthetic work from actual experience.
 - [x] Add an automated internal Markdown/HTML link checker and GitHub Actions workflow.
 - [x] Confirm GitHub Actions link check passes: 43 local Markdown/HTML links checked; no broken internal links reported.
-- [ ] Complete a final editorial review after automated checks.
+- [x] Complete final editorial review of the four case studies, portfolio narrative, governance notes, and presentation copy.
 - [ ] Validate professional experience descriptions against the user's current resume and disclosure permissions.
 - [ ] Add quantified achievements only where evidence exists.
 
