@@ -56,17 +56,23 @@ This summary is intentionally high-level. Specific employers, titles, dates, tea
 ## Practical resources
 
 - [Case-study index](case-studies/README.md)
+- [Interview discussion guide](INTERVIEW_GUIDE.md) — how to explain each synthetic case study accurately
+- [Publication readiness checklist](PORTFOLIO_READINESS.md) — remaining owner-dependent actions
 - [Case-study template](templates/case-study-template.md)
 - [Template library](templates/README.md) — KPI, GTM funnel, strategy options, and AI use-case worksheets
-- [Operations KPI tracker](templates/operations-kpi-tracker.csv)
 - [Portfolio charter](PORTFOLIO_CHARTER.md)
 - [Data and ethics policy](governance/data-and-ethics.md)
 - [Roadmap](roadmap/ROADMAP.md)
+
+## Quality checks
+
+A GitHub Actions workflow checks local Markdown and HTML links on pushes and pull requests. It deliberately does not fetch external websites, so temporary third-party outages do not create noisy failures. See [the link-check script](scripts/check_internal_links.py) and [workflow](.github/workflows/portfolio-checks.yml).
 
 ## Repository structure
 
 ```text
 business360/
+├── .github/workflows/       # Automated portfolio checks
 ├── business-strategy/
 ├── marketing-growth/
 ├── operations/
@@ -74,7 +80,11 @@ business360/
 ├── case-studies/
 ├── templates/
 ├── governance/
+├── docs/                    # GitHub Pages website source
+├── scripts/                 # Quality-check utilities
 ├── roadmap/
+├── INTERVIEW_GUIDE.md
+├── PORTFOLIO_READINESS.md
 └── PORTFOLIO_CHARTER.md
 ```
 
