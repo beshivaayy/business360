@@ -173,6 +173,7 @@ export function createProjectPlan(input) {
     assumptions.push("The specialist responsibilities are workstreams, not four guaranteed full-time roles; combine roles only after checking capacity and competence.");
   }
 
+  const owner = teamSize ? "Project owner (assign by name)" : "To assign";
   const risks = projectType === "d2c_skincare" ? [
     { risk: "Product documentation, licensing or label/claim review is incomplete", likelihood: "Unknown", impact: "High", mitigation: "Obtain qualified compliance review and documentary evidence before offering products for sale.", owner: "Product and compliance lead" },
     { risk: "Finished stock, packaging or supplier lead time misses the launch window", likelihood: "Unknown", impact: "High", mitigation: "Confirm stock, MOQ, lead time and replenishment in writing; define a no-stock/no-launch gate.", owner: "Product and supplier lead" },
