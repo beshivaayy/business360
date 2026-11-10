@@ -66,6 +66,7 @@ const result = document.querySelector("#result");
 const resultWrap = document.querySelector("#result-wrap");
 const empty = document.querySelector("#empty");
 const status = document.querySelector("#status");
+const continueStrategy = document.querySelector("#continue-strategy");
 let activeTool = "create_project_plan";
 let latestOutput = null;
 
@@ -84,6 +85,7 @@ for (const [key, def] of Object.entries(definitions)) {
 
 function selectTool(key) {
   activeTool = key;
+  continueStrategy.hidden = true;
   const def = definitions[key];
   title.textContent = def.title;
   description.textContent = def.description;
@@ -117,6 +119,7 @@ form.addEventListener("submit", event => {
     latestOutput = workflows[activeTool].run(input);
     result.textContent = JSON.stringify(latestOutput, null, 2);
     resultWrap.hidden = false; empty.hidden = true;
+    continueStrategy.hidden = !(activeTool === "build_business_strategy" && latestOutput?.artifact === "Business360 Business Strategy Brief");
     status.textContent = "Result generated in your browser.";
   } catch (error) {
     status.textContent = error instanceof Error ? error.message : "Could not generate the result.";
@@ -124,6 +127,37 @@ form.addEventListener("submit", event => {
   }
 });
 form.addEventListener("reset", () => { status.textContent = ""; });
+continueStrategy.addEventListener("click", () => {
+  if (!latestOutput || latestOutput.artifact !== "Business360 Business Strategy Brief") return;
+  const strategy = latestOutput;
+  selectTool("create_project_plan");
+  const context = [
+    strategy.strategic_thesis,
+    `Offer: ${strategy.offer}`,
+    `Target customer: ${strategy.target_customer}`,
+    `Geography: ${strategy.geography}`,
+    `Initial customer segment to test: ${strategy.recommended_initial_focus?.segment_to_test_first || "To validate"}`,
+    ...(strategy.strategic_roadmap || []).map(item => `${item.period}: ${item.objective}`),
+    `Budget input: ${strategy.budget || "Not supplied"} (confirm actual available cash and commitments before spending)`
+  ].filter(Boolean).join("\\n");
+  const constraints = [
+    ...(strategy.decision_gates || []).map(gate => `${gate.gate}: ${gate.proceed_when} Stop/revise if: ${gate.stop_or_revise_if}`),
+    ...(strategy.unknowns_to_validate || []).map(item => `Validate before commitment: ${item}`)
+  ];
+  const values = {
+    project: `${strategy.business} — strategy execution`,
+    goal: strategy.strategic_thesis || `Execute the business strategy for ${strategy.business}`,
+    context,
+    timeline: "90 days",
+    constraints: constraints.join("\\n")
+  };
+  for (const [name, value] of Object.entries(values)) {
+    const field = fields.querySelector(`[name="${name}"]`);
+    if (field) field.value = value;
+  }
+  status.textContent = "Strategy transferred into the Project Plan. Review the 90-day planning horizon, add team size if known, then generate.";
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 document.querySelector("#copy").addEventListener("click", async () => {
   if (!latestOutput) return;
   try { await navigator.clipboard.writeText(JSON.stringify(latestOutput, null, 2)); status.textContent = "Copied to clipboard."; }
