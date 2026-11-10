@@ -1,0 +1,16 @@
+{
+  "name": "business360",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Model-independent business and project workflows exposed through MCP and reusable core functions.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "zod": "^3.23.8"
+  }
+}

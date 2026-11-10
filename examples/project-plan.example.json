@@ -1,0 +1,11 @@
+{
+  "project": "Launch a small online store",
+  "goal": "Validate demand and launch a minimum viable store",
+  "context": "Illustrative example only; not a real business forecast.",
+  "timeline": "10 weeks",
+  "teamSize": 2,
+  "constraints": [
+    "Limited initial budget",
+    "No existing customer database"
+  ]
+}
