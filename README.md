@@ -57,6 +57,7 @@ This summary is intentionally high-level. Specific employers, titles, dates, tea
 
 - [Case-study index](case-studies/README.md)
 - [Case-study template](templates/case-study-template.md)
+- [Template library](templates/README.md) — KPI, GTM funnel, strategy options, and AI use-case worksheets
 - [Operations KPI tracker](templates/operations-kpi-tracker.csv)
 - [Portfolio charter](PORTFOLIO_CHARTER.md)
 - [Data and ethics policy](governance/data-and-ethics.md)
