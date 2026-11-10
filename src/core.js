@@ -175,7 +175,7 @@ export function createProjectPlan(input) {
 
   const owner = teamSize ? "Project owner (assign by name)" : "To assign";
   const risks = projectType === "d2c_skincare" ? [
-    { risk: "Product documentation, licensing or label/claim review is incomplete", likelihood: "Unknown", impact: "High", mitigation: "Obtain qualified compliance review and documentary evidence before offering products for sale.", owner: "Product and compliance lead" },
+    { risk: "Product compliance documentation, licensing or label/claim review is incomplete", likelihood: "Unknown", impact: "High", mitigation: "Obtain qualified compliance review and documentary evidence before offering products for sale.", owner: "Product and compliance lead" },
     { risk: "Finished stock, packaging or supplier lead time misses the launch window", likelihood: "Unknown", impact: "High", mitigation: "Confirm stock, MOQ, lead time and replenishment in writing; define a no-stock/no-launch gate.", owner: "Product and supplier lead" },
     { risk: "Customer acquisition costs exceed contribution margin", likelihood: "Unknown", impact: "High", mitigation: "Calculate contribution per order from actual costs and cap initial channel tests.", owner: "Project lead and growth lead" },
     { risk: "Checkout, dispatch, returns or support fail under real orders", likelihood: "Unknown", impact: "Medium", mitigation: "Run end-to-end test orders and rehearse exception handling before scaling traffic.", owner: "Commerce and operations lead" }
