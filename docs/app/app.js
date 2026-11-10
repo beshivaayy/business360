@@ -111,7 +111,7 @@ form.addEventListener("submit", event => {
   const input = {};
   for (const field of form.querySelectorAll("#fields input, #fields textarea")) {
     let value = field.value.trim();
-    if (field.dataset.list === "true") value = value.split("\\n").map(x => x.trim()).filter(Boolean);
+    if (field.dataset.list === "true") value = value.split("\n").map(x => x.trim()).filter(Boolean);
     else if (field.name === "teamSize" && value) value = Number(value);
     if (value !== "" && (!Array.isArray(value) || value.length)) input[field.name] = value;
   }
@@ -139,7 +139,7 @@ continueStrategy.addEventListener("click", () => {
     `Initial customer segment to test: ${strategy.recommended_initial_focus?.segment_to_test_first || "To validate"}`,
     ...(strategy.strategic_roadmap || []).map(item => `${item.period}: ${item.objective}`),
     `Budget input: ${strategy.budget || "Not supplied"} (confirm actual available cash and commitments before spending)`
-  ].filter(Boolean).join("\\n");
+  ].filter(Boolean).join("\n");
   const constraints = [
     ...(strategy.decision_gates || []).map(gate => `${gate.gate}: ${gate.proceed_when} Stop/revise if: ${gate.stop_or_revise_if}`),
     ...(strategy.unknowns_to_validate || []).map(item => `Validate before commitment: ${item}`)
@@ -149,7 +149,7 @@ continueStrategy.addEventListener("click", () => {
     goal: strategy.strategic_thesis || `Execute the business strategy for ${strategy.business}`,
     context,
     timeline: "90 days",
-    constraints: constraints.join("\\n")
+    constraints: constraints.join("\n")
   };
   for (const [name, value] of Object.entries(values)) {
     const field = fields.querySelector(`[name="${name}"]`);
