@@ -27,7 +27,7 @@ These are structured portfolio exercises. They are not validated client engageme
 - [x] Add data/confidentiality and responsible-AI governance principles.
 - [x] Add a reusable interview guide that distinguishes synthetic work from actual experience.
 - [x] Add an automated internal Markdown/HTML link checker and GitHub Actions workflow.
-- [ ] Confirm the first GitHub Actions run passes; resolve any reported failures.
+- [x] Confirm GitHub Actions link check passes: 43 local Markdown/HTML links checked; no broken internal links reported.
 - [ ] Complete a final editorial review after automated checks.
 - [ ] Validate professional experience descriptions against the user's current resume and disclosure permissions.
 - [ ] Add quantified achievements only where evidence exists.
