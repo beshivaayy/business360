@@ -5,15 +5,27 @@
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
 import { workflows } from "./core.js";
 
-const server = new McpServer({
-  name: "business360",
-  version: "0.1.0"
-});
+const server = new McpServer({ name: "business360", version: "0.1.0" });
+
+function toZodShape(schema) {
+  const required = new Set(schema.required ?? []);
+  const shape = {};
+  for (const [key, definition] of Object.entries(schema.properties ?? {})) {
+    let field;
+    if (definition.type === "string") field = z.string();
+    else if (definition.type === "number") field = z.number();
+    else if (definition.type === "array" && definition.items?.type === "string") field = z.array(z.string());
+    else throw new Error(`Unsupported schema type for ${key}`);
+    shape[key] = required.has(key) ? field : field.optional();
+  }
+  return shape;
+}
 
 for (const [name, workflow] of Object.entries(workflows)) {
-  server.tool(name, workflow.description, workflow.inputSchema, async (args) => {
+  server.tool(name, workflow.description, toZodShape(workflow.inputSchema), async (args) => {
     try {
       const result = workflow.run(args);
       return {
@@ -29,5 +41,4 @@ for (const [name, workflow] of Object.entries(workflows)) {
   });
 }
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
+await server.connect(new StdioServerTransport());
