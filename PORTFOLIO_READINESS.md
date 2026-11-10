@@ -11,7 +11,7 @@ This page separates work that can be completed inside the repository from action
 - [x] Data, confidentiality, and responsible-AI principles.
 - [x] Interview discussion guide with explicit synthetic-work boundaries.
 - [x] Automated internal Markdown/HTML link check in GitHub Actions.
-- [ ] Confirm the first GitHub Actions run passes; fix any failures before external promotion.
+- [x] Confirm the first GitHub Actions run passes: 43 local Markdown/HTML links checked; no broken internal links reported.
 - [ ] Complete final editorial review after automated checks.
 
 ## Account-owner actions
