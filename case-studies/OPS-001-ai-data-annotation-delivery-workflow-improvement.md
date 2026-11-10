@@ -184,6 +184,10 @@ Targets below are proposed hypotheses for a pilot, not guaranteed outcomes. Conf
 
 **Guardrail:** Throughput is never a standalone success measure. A throughput increase accompanied by worse first-pass acceptance, critical defects, or missed delivery is not an improvement.
 
+### Practical tracking file
+
+Use the [operations KPI tracker CSV](../templates/operations-kpi-tracker.csv) as a blank data-capture template. Enter one row per batch and reporting period; keep complexity bands consistent. Calculate rates from the KPI dictionary above rather than averaging percentages across batches. The CSV contains no pre-filled performance claims.
+
 ## 11. Four-week pilot plan
 
 | Week | Work | Deliverable | Exit criterion |
